@@ -1,0 +1,68 @@
+# Rowan — daily 07:00 (Sydney) anomaly scan and Medium-style article draft.
+name: "Rowan · Morning article (07:00 Sydney)"
+
+on:
+  schedule:
+    - cron: "0 20 * * *"   # 07:00 Sydney during summer time (UTC+11)
+    - cron: "0 21 * * *"   # 07:00 Sydney during winter time (UTC+10)
+  workflow_dispatch:
+    inputs:
+      concept:
+        description: "Optional trading concept to write about"
+        required: false
+        default: ""
+      ticker:
+        description: "Optional ticker to test it on (e.g. NVDA or BHP.AX)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rowan-writer
+  cancel-in-progress: false
+
+env:
+  TZ: Australia/Sydney
+  MPLBACKEND: Agg
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Pick the run that matches Sydney's current UTC offset
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          case "${{ github.event.schedule }}" in
+            "0 20 * * *") want="+1100" ;;
+            "0 21 * * *") want="+1000" ;;
+          esac
+          if [ "$(date +%z)" = "$want" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; else echo "Not this offset - skipping."; echo "run=false" >> "$GITHUB_OUTPUT"; fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Write the morning article
+        if: steps.gate.outputs.run == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CONCEPT: ${{ inputs.concept }}
+          TICKER: ${{ inputs.ticker }}
+        run: python writer_employee.py --run-now --concept "${CONCEPT:-}" --ticker "${TICKER:-}"
+
+      - name: Save results to repo
+        if: steps.gate.outputs.run == 'true'
+        run: 'bash .github/scripts/commit_outputs.sh "Rowan: morning article"'

@@ -1,0 +1,65 @@
+# Kai — weekday 17:00 (Sydney) RSI / Bollinger Band backtests on the watchlist.
+# On Thursdays the script also writes the weekly holistic (Buffett-style) report.
+name: "Kai · Quant analysis (17:00 Sydney, Mon-Fri)"
+
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"   # 17:00 Sydney during summer time (UTC+11)
+    - cron: "0 7 * * 1-5"   # 17:00 Sydney during winter time (UTC+10)
+  workflow_dispatch:
+    inputs:
+      weekly:
+        description: "Also run the Thursday holistic report"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kai-quant-analysis
+  cancel-in-progress: false
+
+env:
+  TZ: Australia/Sydney
+  MPLBACKEND: Agg
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Pick the run that matches Sydney's current UTC offset
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          case "${{ github.event.schedule }}" in
+            "0 6 * * 1-5") want="+1100" ;;
+            "0 7 * * 1-5") want="+1000" ;;
+          esac
+          if [ "$(date +%z)" = "$want" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; else echo "Not this offset - skipping."; echo "run=false" >> "$GITHUB_OUTPUT"; fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Run the quant analysis
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          args=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then args="--force"; fi
+          if [ "${{ inputs.weekly }}" = "true" ]; then args="$args --weekly"; fi
+          python quant_employee.py $args
+
+      - name: Save results to repo
+        if: steps.gate.outputs.run == 'true'
+        run: 'bash .github/scripts/commit_outputs.sh "Kai: quant analysis"'

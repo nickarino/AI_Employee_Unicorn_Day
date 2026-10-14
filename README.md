@@ -98,6 +98,25 @@ To enable your employees to run automatically in the background even after resta
 
 To stop scheduled automation at any time, run the corresponding `STOP_*.bat` script.
 
+### Option C: In the Cloud with GitHub Actions (no PC required)
+
+This fork runs all three employees on GitHub's servers, so nothing has to stay switched on. Each run saves its output (reports, drafts, charts, the price ledger) back into this repository as a commit.
+
+| Workflow | Schedule (Sydney time) |
+| --- | --- |
+| Ava · Price monitor | Every 30 min, 10:00–16:30, Mon–Fri |
+| Ava · News briefing | Daily at 16:30 |
+| Kai · Quant analysis | 17:00 Mon–Fri (plus the holistic report on Thursdays) |
+| Rowan · Morning article | Daily at 07:00 |
+
+One-time setup:
+
+1. **Add your Gemini key:** Settings → Secrets and variables → Actions → New repository secret. Name `GEMINI_API_KEY`, value = your key from [Google AI Studio](https://aistudio.google.com/).
+2. **Turn on Actions:** open the Actions tab and enable workflows (GitHub disables them on new forks).
+3. **Test it:** in the Actions tab pick any workflow and click **Run workflow** to run it immediately.
+
+Notes: GitHub schedules run in UTC, so each workflow has two cron lines (Sydney summer and winter time) and skips whichever one doesn't match today. Scheduled runs can start a few minutes late when GitHub is busy. To pause a worker, open it in the Actions tab and choose **Disable workflow**.
+
 ---
 
 ## 📁 Repository Structure

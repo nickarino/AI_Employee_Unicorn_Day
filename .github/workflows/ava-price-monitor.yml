@@ -1,0 +1,60 @@
+# Ava — logs the CSL.AX price every 30 minutes during ASX trading hours
+# (10:00–16:30 Sydney time, Monday–Friday) and commits the ledger back to the repo.
+name: "Ava · Price monitor (every 30 min)"
+
+on:
+  schedule:
+    # GitHub cron runs in UTC. These two lines cover ASX hours in both
+    # Sydney summer time (UTC+11) and winter time (UTC+10); the gate step
+    # below skips any run that falls outside 10:00–16:30 Sydney time.
+    - cron: "0,30 23 * * 0-4"
+    - cron: "0,30 0-6 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ava-price-monitor
+  cancel-in-progress: false
+
+env:
+  TZ: Australia/Sydney
+  MPLBACKEND: Agg
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check ASX trading window
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          dow=$(date +%u); hm=$(date +%H%M)
+          if [ "$dow" -le 5 ] && [ "$hm" -ge 1000 ] && [ "$hm" -le 1630 ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Outside ASX hours ($(date '+%a %H:%M %Z')) - skipping."; echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Record one price check
+        if: steps.gate.outputs.run == 'true'
+        run: python ai_employee.py --once
+
+      - name: Save results to repo
+        if: steps.gate.outputs.run == 'true'
+        run: 'bash .github/scripts/commit_outputs.sh "Ava: price check"'

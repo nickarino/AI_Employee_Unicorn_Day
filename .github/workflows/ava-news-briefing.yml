@@ -1,0 +1,57 @@
+# Ava — daily 16:30 (Sydney) post-market news briefing synthesized with Gemini.
+name: "Ava · News briefing (16:30 Sydney)"
+
+on:
+  schedule:
+    - cron: "30 5 * * *"   # 16:30 Sydney during summer time (UTC+11)
+    - cron: "30 6 * * *"   # 16:30 Sydney during winter time (UTC+10)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ava-news-briefing
+  cancel-in-progress: false
+
+env:
+  TZ: Australia/Sydney
+  MPLBACKEND: Agg
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Pick the run that matches Sydney's current UTC offset
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          case "${{ github.event.schedule }}" in
+            "30 5 * * *") want="+1100" ;;
+            "30 6 * * *") want="+1000" ;;
+          esac
+          if [ "$(date +%z)" = "$want" ]; then echo "run=true" >> "$GITHUB_OUTPUT"; else echo "Not this offset - skipping."; echo "run=false" >> "$GITHUB_OUTPUT"; fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Write the news briefing
+        if: steps.gate.outputs.run == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python daily_news_summary.py
+
+      - name: Save results to repo
+        if: steps.gate.outputs.run == 'true'
+        run: 'bash .github/scripts/commit_outputs.sh "Ava: daily news briefing"'
