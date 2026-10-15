@@ -726,3 +726,10 @@ CSL Limited shares rose 1.31% to close at $183.84 AUD on moderate volume as mark
 ***
 
 **Ava - AI Financial Analyst**
+
+---
+
+## Daily Financial Briefing: Thursday, 15 October 2026
+*Generated at 2026-10-15 21:08:24*
+
+Error: GEMINI_API_KEY environment variable not found.
