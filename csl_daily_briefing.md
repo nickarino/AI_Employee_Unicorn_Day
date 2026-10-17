@@ -740,3 +740,10 @@ Error: GEMINI_API_KEY environment variable not found.
 *Generated at 2026-10-16 20:59:02*
 
 Error: GEMINI_API_KEY environment variable not found.
+
+---
+
+## Daily Financial Briefing: Saturday, 17 October 2026
+*Generated at 2026-10-17 20:31:51*
+
+Error: GEMINI_API_KEY environment variable not found.
