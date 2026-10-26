@@ -583,3 +583,4 @@ Timestamp_Local,Timestamp_UTC,Symbol,Company,Price_AUD,Previous_Close_AUD,Change
 2026-10-22 14:55:59,2026-10-22 03:55:59Z,CSL.AX,CSL Limited,196.15,196.08,+0.07,+0.04%,193.89,196.99,"557,185",OPEN,Gaining (+$0.07 / +0.04%) vs previous close
 2026-10-23 12:03:29,2026-10-23 01:03:29Z,CSL.AX,CSL Limited,195.26,196.14,-0.88,-0.45%,194.35,197.20,"441,964",OPEN,Easing (-$0.88 / -0.45%) vs previous close
 2026-10-23 14:59:46,2026-10-23 03:59:46Z,CSL.AX,CSL Limited,196.01,196.14,-0.13,-0.07%,194.35,197.20,"656,156",OPEN,Easing (-$0.13 / -0.07%) vs previous close
+2026-10-26 11:47:55,2026-10-26 00:47:55Z,CSL.AX,CSL Limited,192.14,196.70,-4.56,-2.32%,191.55,195.97,"176,551",OPEN,Easing (-$4.56 / -2.32%) vs previous close
