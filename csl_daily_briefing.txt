@@ -930,3 +930,9 @@ DAILY FINANCIAL BRIEFING: Tuesday, 24 November 2026 (2026-11-24 03:16:20)
 ================================================================================
 
 Error: GEMINI_API_KEY environment variable not found.
+
+================================================================================
+DAILY FINANCIAL BRIEFING: Wednesday, 25 November 2026 (2026-11-25 03:02:40)
+================================================================================
+
+Error: GEMINI_API_KEY environment variable not found.
