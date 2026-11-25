@@ -605,3 +605,4 @@
 [2026-11-19 14:53:56] CSL.AX: $198.39 AUD | Change: -0.99 (-0.50%) | Day Range: [$196.13 - $200.16] | Vol: 522,536 | Market: OPEN
 [2026-11-20 14:46:16] CSL.AX: $196.45 AUD | Change: -3.40 (-1.70%) | Day Range: [$194.56 - $199.51] | Vol: 856,810 | Market: OPEN
 [2026-11-23 14:18:22] CSL.AX: $199.42 AUD | Change: +2.13 (+1.08%) | Day Range: [$192.82 - $199.90] | Vol: 306,795 | Market: OPEN
+[2026-11-25 16:07:13] CSL.AX: $207.89 AUD | Change: +3.46 (+1.69%) | Day Range: [$205.44 - $210.65] | Vol: 1,021,582 | Market: OPEN
