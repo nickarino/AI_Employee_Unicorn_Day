@@ -1,7 +1,7 @@
 # Daily Quantitative Intelligence Briefing
 
 **Autonomous AI Employee**: Kai (Quantitative Technical Analyst)  
-**Execution Timestamp**: 2026-11-25 03:49:54  
+**Execution Timestamp**: 2026-11-26 03:37:29  
 **Cadence**: Monday - Friday Daily Market Cycle  
 **Watchlist**: TLX.AX, COH.AX, SUN.AX, CSL.AX  
 **Workspace**: `/home/runner/work/AI_Employee_Unicorn_Day/AI_Employee_Unicorn_Day`
@@ -12,10 +12,10 @@
 
 | Metric | 14-Period RSI Strategy | 20-Day Bollinger Bands Strategy | Buy & Hold Benchmark |
 | :--- | :--- | :--- | :--- |
-| **Strategy Return** | **30.56%** | **7.56%** | 79.84% |
-| **Final Equity ($10k)** | **$13,056.15** | **$10,755.77** | — |
+| **Strategy Return** | **30.56%** | **9.36%** | 86.69% |
+| **Final Equity ($10k)** | **$13,056.15** | **$10,936.26** | — |
 | **Max Drawdown** | -70.57% | -57.35% | — |
-| **Sharpe Ratio** | N/A | **0.18** | — |
+| **Sharpe Ratio** | N/A | **0.19** | — |
 | **Trades Triggered** | 10 | 29 | 1 |
 | **Current Stance** | `Cash` | `Cash` | Holding |
 
@@ -29,8 +29,8 @@
 
 | Metric | 14-Period RSI Strategy | 20-Day Bollinger Bands Strategy | Buy & Hold Benchmark |
 | :--- | :--- | :--- | :--- |
-| **Strategy Return** | **10.49%** | **-22.83%** | -28.25% |
-| **Final Equity ($10k)** | **$11,049.21** | **$7,717.46** | — |
+| **Strategy Return** | **0.76%** | **-22.83%** | -28.40% |
+| **Final Equity ($10k)** | **$10,076.11** | **$7,717.46** | — |
 | **Max Drawdown** | -59.29% | -66.96% | — |
 | **Sharpe Ratio** | N/A | **-0.09** | — |
 | **Trades Triggered** | 14 | 30 | 1 |
@@ -46,8 +46,8 @@
 
 | Metric | 14-Period RSI Strategy | 20-Day Bollinger Bands Strategy | Buy & Hold Benchmark |
 | :--- | :--- | :--- | :--- |
-| **Strategy Return** | **51.19%** | **76.78%** | 101.10% |
-| **Final Equity ($10k)** | **$15,118.86** | **$17,678.38** | — |
+| **Strategy Return** | **45.97%** | **76.78%** | 102.63% |
+| **Final Equity ($10k)** | **$14,597.03** | **$17,678.39** | — |
 | **Max Drawdown** | -23.83% | -31.83% | — |
 | **Sharpe Ratio** | N/A | **0.68** | — |
 | **Trades Triggered** | 8 | 24 | 1 |
@@ -63,8 +63,8 @@
 
 | Metric | 14-Period RSI Strategy | 20-Day Bollinger Bands Strategy | Buy & Hold Benchmark |
 | :--- | :--- | :--- | :--- |
-| **Strategy Return** | **-51.79%** | **-16.58%** | -30.14% |
-| **Final Equity ($10k)** | **$4,821.43** | **$8,341.51** | — |
+| **Strategy Return** | **-51.79%** | **-16.59%** | -28.83% |
+| **Final Equity ($10k)** | **$4,821.42** | **$8,341.50** | — |
 | **Max Drawdown** | -67.52% | -48.83% | — |
 | **Sharpe Ratio** | N/A | **-0.23** | — |
 | **Trades Triggered** | 8 | 34 | 1 |
